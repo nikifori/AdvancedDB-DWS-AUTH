@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDICAL SCIENTIFIC SEARCH ON PAPERS BASED ON THEIR ABSTRACT</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>MEDICAL SCIENTIFIC SEARCH ON PAPERS BASED ON THEIR ABSTRACT</h1>
+    <form id="search-form">
+        <label for="keywords">Keywords:</label>
+        <input type="text" id="keywords" name="keywords" required>
+        <br>
+        <label for="k">Number of Neighbors (k):</label>
+        <input type="number" id="k" name="k" value="5" required>
+        <br>
+        <label for="metric">Distance Metric:</label>
+        <select id="metric" name="metric" required>
+            <option value="manhattan">Manhattan</option>
+            <option value="euclidean">L2 (Euclidean)</option>
+            <option value="cosine">Cosine</option>
+            <option value="sqeuclidean">Squared Euclidean</option>
+            <option value="canberra">Canberra</option>
+            <option value="chebyshev">Chebyshev</option>
+            <option value="correlation">Correlation</option>
+        </select>
+        <br>
+        <button type="submit">Search</button>
+    </form>
+    <h2>Precision:</h2>
+    <p id="precision"></p>
+    <h2>Results:</h2>
+    <table id="results-table" border="1">
+        <thead>
+            <tr>
+                <th>Idx</th>
+                <th>Distance</th>
+                <th>Text</th>
+                <th>Keyword Present</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function(){
+            $('#search-form').on('submit', function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: '/search',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response){
+                        $('#precision').text('Precision: ' + response.precision);
+                        var resultsTable = $('#results-table tbody');
+                        resultsTable.empty();
+                        response.results.forEach(function(result){
+                            resultsTable.append(
+                                '<tr>' +
+                                '<td>' + result.index + '</td>' + // Index of the result
+                                '<td>' + result.distance + '</td>' +
+                                '<td>' + JSON.stringify(result.text) + '</td>' +
+                                '<td>' + (result.keyword_present ? 'Yes' : 'No') + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
