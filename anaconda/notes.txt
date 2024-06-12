@@ -1,0 +1,34 @@
+# RUN INTERACTIVE terminal
+docker exec -it my_postgres /bin/bash
+
+# FIND HOSTNAME AND IP
+hostname
+hostname -I
+
+ή docker inspect <container_id>
+
+# docker compose
+docker-compose up (automatically reads docker-compose.yaml)
+
+# pgadmin
+in pgadmin when I register db
+use IPAdress of container with postgreSQL
+also port from this container (not the localhost bound one)
+
+# DATA
+https://github.com/sebischair/Medical-Abstracts-TC-Corpus
+models --> SPECTER, SPECTER2 (https://github.com/allenai/SPECTER2)
+
+# RUN THE APP
+uvicorn backend:app --reload
+
+# conda
+conda create --name advanced_db_env python==3.10.12
+pip install -r requirements.txt
+
+# python
+conda activate advanced_db_env
+
+# run python scripts
+python ingest_data.py
+python backend.py

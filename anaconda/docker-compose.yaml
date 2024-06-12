@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: password
+      POSTGRES_DB: advanced_db
+    ports:
+      - 5433:5432 # 5433:5432: Maps port 5433 on the host to port 5432 in the container (the default PostgreSQL port).
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    depends_on:
+      - postgres  # depends_on:: Ensures that the PostgreSQL service starts before the pgAdmin service
+
+  anaconda:
+    build: ./anaconda
+    container_name: anaconda
+    # volumes:
+    #   - ./../:/home/advanced_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - pgadmin
