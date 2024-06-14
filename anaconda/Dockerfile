@@ -6,7 +6,7 @@ WORKDIR /home/advanced_db
 
 # Copy all files from the current directory to the working directory in the container
 COPY ./*.* /home/advanced_db/
-COPY ./templates /home/advanced_db/template
+COPY ./templates /home/advanced_db/templates
 
 # Verify copy
 RUN var=$(ls /home/advanced_db/)
