@@ -3,7 +3,7 @@
 
 ### Clone the repository
 
-`git clone https://github.com/nikifori/AdvancedDB-DWS-AUTH.git ./my_app`
+`git clone https://github.com/nikifori/medical-database-searching.git ./my_app`
 
 ### cd into the folder
 
